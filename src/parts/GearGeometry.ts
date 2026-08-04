@@ -158,9 +158,55 @@ export function hubGeometry(radius: number, height: number): THREE.BufferGeometr
   return new THREE.CylinderGeometry(radius, radius, height, 20)
 }
 
+/** Perfil 2D de um raio: uma barra saindo do cubo central até quase a borda. */
+function spokeOutline(radius: number, spokeCount: number): THREE.Vector2[] {
+  const rHub = radius * 0.26
+  const rTip = radius * 1.05
+  const step = (Math.PI * 2) / spokeCount
+  const armHalf = step * 0.16
+
+  const points: THREE.Vector2[] = []
+  for (let i = 0; i < spokeCount; i++) {
+    const center = i * step
+    pushArc(points, rHub, center - step / 2, center - armHalf)
+    points.push(polar(rHub, center - armHalf))
+    points.push(polar(rTip, center - armHalf))
+    points.push(polar(rTip, center + armHalf))
+    points.push(polar(rHub, center + armHalf))
+  }
+  return points
+}
+
+const spokeCache = new Map<string, THREE.BufferGeometry>()
+
+/**
+ * Raios num tom mais escuro, sobrepostos à face de cima da polia — o "raiado"
+ * que deixa óbvio, à primeira vista, que a peça está girando.
+ */
+export function pulleySpokeGeometry(
+  radius: number,
+  spokeCount = 5,
+  thickness = GEAR_THICKNESS * 0.16 + 0.02,
+): THREE.BufferGeometry {
+  const key = `${radius}|${spokeCount}|${thickness}`
+  const cached = spokeCache.get(key)
+  if (cached) return cached
+
+  const shape = new THREE.Shape(spokeOutline(radius, spokeCount))
+  const geometry = new THREE.ExtrudeGeometry(shape, { depth: thickness, bevelEnabled: false, curveSegments: 4 })
+  geometry.translate(0, 0, -thickness / 2)
+  geometry.rotateX(-Math.PI / 2)
+  geometry.computeVertexNormals()
+
+  spokeCache.set(key, geometry)
+  return geometry
+}
+
 export function disposeGeometryCaches(): void {
   for (const g of gearCache.values()) g.dispose()
   for (const g of bevelCache.values()) g.dispose()
+  for (const g of spokeCache.values()) g.dispose()
   gearCache.clear()
   bevelCache.clear()
+  spokeCache.clear()
 }

@@ -11,6 +11,7 @@ import {
   hubRadius,
   pulleyFlangeGeometry,
   pulleyGeometry,
+  pulleySpokeGeometry,
 } from '../parts/GearGeometry'
 
 const UP = new THREE.Vector3(0, 1, 0)
@@ -339,6 +340,14 @@ export class PartViews {
       group.add(flange)
     }
 
+    const spokes = new THREE.Mesh(
+      pulleySpokeGeometry(w.radius),
+      this.material(view, new THREE.Color(part.color).offsetHSL(0, 0, -0.32)),
+    )
+    spokes.position.y = GEAR_THICKNESS / 2
+    spokes.userData.partId = part.id
+    group.add(spokes)
+
     view.root.add(group)
     view.rotating.push({
       object: group,
@@ -381,6 +390,14 @@ export class PartViews {
       flange.userData.partId = part.id
       drumGroup.add(flange)
     }
+
+    const spokes = new THREE.Mesh(
+      pulleySpokeGeometry(pulley.radius),
+      this.material(view, new THREE.Color(shade).offsetHSL(0, 0, -0.32)),
+    )
+    spokes.position.y = GEAR_THICKNESS / 2
+    spokes.userData.partId = part.id
+    drumGroup.add(spokes)
 
     view.root.add(drumGroup)
     view.rotating.push({

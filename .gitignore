@@ -2,6 +2,22 @@ node_modules
 dist
 dist-ssr
 *.local
-.DS_Store
 .vite
 coverage
+*.tsbuildinfo
+
+# Playwright (screenshots/snapshots/traces from browser-driven testing)
+.playwright-mcp
+test-results
+playwright-report
+playwright/.cache
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea
+*.swp
