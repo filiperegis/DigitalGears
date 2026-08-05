@@ -40,12 +40,9 @@ export const PALETTE: PaletteItem[] = [
     hint: 'freia',
     spec: { kind: 'compound', bottomTeeth: 24, topTeeth: 8 },
   },
-  {
-    id: 'bevel-16-16',
-    label: '90°',
-    hint: 'cônica',
-    spec: { kind: 'bevel', inTeeth: 16, outTeeth: 16 },
-  },
+  // A peça cônica ('bevel-16-16') fica de fora da paleta por enquanto —
+  // ainda não está pronta para uso, mas o kind 'bevel' continua implementado
+  // (ver PartSpec e createPart) para retomar depois.
   {
     id: 'pulley-small',
     label: 'ø1',

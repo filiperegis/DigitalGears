@@ -112,19 +112,8 @@ export const LESSONS: Lesson[] = [
     pecasDisponiveis: ['compound-8-24', 'spur-8', 'spur-12'],
     objetivo: { tipo: 'velocidadeQualquer', fator: 8 },
   },
-  {
-    id: 'conica',
-    titulo: 'Virar a esquina',
-    explicacao:
-      'A engrenagem cônica tem os dentes virados pro lado. Ela pega o giro que está deitado na mesa e leva para um eixo em pé.',
-    dica: 'Encaixe a peça cônica direto na engrenagem da manivela.',
-    montagemInicial: [
-      { tag: 'motor', spec: { kind: 'spur', teeth: 16 }, x: -3, z: 0, locked: true },
-    ],
-    manivelaEm: 'motor',
-    pecasDisponiveis: ['bevel-16-16', 'spur-16'],
-    objetivo: { tipo: 'eixoPerpendicular' },
-  },
+  // Lição 'conica' (Virar a esquina) removida por enquanto — dependia
+  // inteiramente da peça cônica, hoje escondida da interface (ver partCatalog.ts).
   {
     id: 'correia',
     titulo: 'Lá longe',
